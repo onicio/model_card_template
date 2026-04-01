@@ -12,7 +12,7 @@
 > model — classification, prediction, generation, optimization? When was it
 > developed?
 
-The AquaRate mobile app is a predictive model that provides consumers of bottled and packaged water an A-F rating, where A is the best rating and F is the worst, based on water quality factors. This model was developed in 2025 and is on version 3.0.
+The AquaRate mobile app is a predictive model that provides consumers of bottled and packaged water an A-F rating, where A is the best rating and F is the worst, based on water quality factors. The model uses gradient-boosted ensemble, which works by creating many smaller models and combines them to make accurate predictions. This model takes inputs from a particular brand (Total coliform/ E.coli levels, chemcial contaminant levels, mineral content, pH, turbidity, and microplastic presence) and assigns the brand a score from 0-100 which is then converted to a letter grade. Letter grades are assigned as follows: 0-16=F, 17-33=E, 34-50=D, 51-67=C, 68-83=D, 84-100=F. This model was developed in 2025 and is on version 3.0.
 
 ---
 
@@ -21,7 +21,7 @@ The AquaRate mobile app is a predictive model that provides consumers of bottled
 > What is the primary task? Who are the intended users? What decisions does
 > the system inform? In what context is it deployed?
 
-The main task is to support consumer bottled and packaged water purchase decision by providing an A-F rating. The intended users are health-conscious consumers, especially parents of young children and immuno-compromised individuals, in the USA. The intended use case is for consumers to be able to scan the products bar code using the mobile app to see the generated rating so they may decide whih brand of water to purchase, likely while in the store. 
+The main task is to support consumer bottled and packaged water purchase decision by providing an A-F rating based on water quality metrics. The intended users are health-conscious consumers, especially parents of young children and immuno-compromised individuals, in the USA. The intended use case is for consumers to be able to scan the products bar code using the mobile app to see the generated rating so they may decide whih brand of water to purchase, likely while in the store. 
 
 ---
 
@@ -40,7 +40,7 @@ AquaRate, while it uses real world water quality data to make predictions, it is
 > populations, geographies, languages, and time periods does it cover? What
 > is missing?
 
-The data used to train the model comes from multiple sources 1) Water quality testing reports provided by bottled water brands to the FDA and available freely on the FDA website, 2) EPA water quality reports by municipality, publicly available from the EPA website, 3) Lab testin data purchased from Certified laboratories, a third-party food and beverage testing laboratory, as well as 4) climate data available from the National Weather Service website and geospatial data avalable from USGS website.  
+The data used to train the model comes from multiple sources 1) Water quality testing reports provided by bottled water brands to the FDA and available freely on the FDA website, 2) EPA water quality reports by municipality, publicly available from the EPA website, 3) Lab testin data purchased from Certified laboratories, a third-party food and beverage testing laboratory, as well as 4) climate data available from the National Weather Service website and geospatial data avalable from USGS website. All data is only for bottled and packaged water sold in the United States for consumers in the United States, and provided only in English. Data is generally not current, FDA data is 12-18 months behind and EPA data is only repported once a year. Combined that data covers only 60% of available brands found in supermarket chains. Most of the missing datais from store-brand or regional brands. The most current version of the data was used for training, Spring 2025 reports.   
 
 ---
 
@@ -50,7 +50,7 @@ The data used to train the model comes from multiple sources 1) Water quality te
 > specificity, F1, AUC, RMSE? On what test set? Is it independent from the
 > training data?
 
-[Your response]
+Performance was primarity measured using the F1 score which will treat each level (letter grade) equally, ensure classification accuracy, to ensure precision and recall. Cohen's Kappa was also used to measure how the model performs over random guessing. Since the model is intended to provide health safety information, sensitivity and specificity tests were conducted to ensure unsafe water is accurately predicted and unsafe waster is not lables as safe. The data set used for this purpose was older vresoins of the FDA water quality result, EPAmunicipal water quality reports, and older water testing reports from independent labs.This wat the same sources of data are usd, but the data used is different than the training data.   
 
 ---
 
@@ -60,7 +60,7 @@ The data used to train the model comes from multiple sources 1) Water quality te
 > geography, income, language. Does the model perform differently across
 > these groups? Where are the gaps?
 
-[Your response]
+Performance was assessed qualitatively for geospatial area broken down by urban and rural communities and socioeconomic factors. Additionally age, race, and income to ensure there is no bias based on demographic factors. The analysis also included chronic illness to ensure the model is not responding to existing health status of the user. The analysis shows that the model perfoms similarly across all segments, however, providing personal data was an optional step and 40% of the users examined were missing some or all of these responces.  
 
 ---
 
@@ -70,7 +70,7 @@ The data used to train the model comes from multiple sources 1) Water quality te
 > Does this system reproduce or amplify existing disparities? Who bears the
 > consequences when it fails?
 
-[Your response]
+The mobile app is funded by partnerships with high scoring water brands. This ensures accessibilty, the app is offered for free, however, this partnership may introduce bias as high scoring they may be scanned more often compared to those that are lower scoring. Access may be disporoportionate among communities with poor internet and electricity access, or those without smartphones that can connect to a 5G network, There is potential for harm if users make decissions based on scores that may be over a year old. More current issues may not be captured in the prediction, leaving people to make less well informed health safety decisons. This is more impactful in vulnerable individuals, young children and immuno-compromised people. 
 
 ---
 
@@ -80,7 +80,10 @@ The data used to train the model comes from multiple sources 1) Water quality te
 > where it performs poorly. Assumptions baked into the design that may not
 > hold in all deployment contexts.
 
-[Your response]
+data is old, will miss new problems
+no store or regional brands- ususally cheaper
+can be misteken for difinitive quality results or impact health decisions
+how to handel discrepancies beyween data sources?
 
 ---
 
