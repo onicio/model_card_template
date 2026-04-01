@@ -1,0 +1,114 @@
+# Model Card — OneHealth FundScore
+
+**Scenario:** OneHealth FundScore: Grant Allocation Risk Predictor
+**Authors:** Timothy Ojodare
+**Date:** April 1, 2026
+
+---
+
+## 1. Model Details
+
+> What model or API is being used? Who built it? What version? What type of
+> model — classification, prediction, generation, optimization? When was it
+> developed?
+
+OneHealth FundScore is a multi-layer neural network designed for risk prediction and scoring (any possible output value between 0–100 scale), does not make funding decision by classifying what to, and what not to fund. It functions as a composite risk index generator that produces a country-level One Health risk score by integrating epidemiological, veterinary, environmental, and institutional data streams of applicants. The model was developed by OneHealth Fundscore for use by an international funding agency in its annual $120 million grant allocation cycle.
+
+The system is designed to ingest structured country application data that include epidemiological data (disease burden, outbreak history, surveillance capacity), veterinary and livestock data (zoonotic disease prevalence, antimicrobial resistance patterns), environmental indicators (deforestation rates, biodiversity loss indices, water and sanitation coverage), and institutional capacity metrics (health workforce density, laboratory capacity, IHR core capacity scores), and the system processes these input data alongside external datasets from the WHO Global Health Observatory, OIE/WOAH disease notification systems, World Bank development indicators, and the INFORM Risk Index. Outputs include the cummulative risk score and a domain-level breakdown (highlighting the one that contributes the most to the cummulative score) across four risk pillars: zoonotic spillover risk, antimicrobial resistance (AMR) burden, environmental degradation, and institutional fragility.
+
+The model version, training framework (which includes the data and how it was collected, and at what time period), and architecture depth (number of layers, review triggers and retraining details) are not disclosed. This is a transparency gap that itself warrants documentation, for a system influencing $120 million in annual funding, the opacity of these information is a significant as it directly weighs heavily on the quality of funding decisons.
+
+---
+
+## 2. Intended Use
+
+> What is the primary task? Who are the intended users? What decisions does
+> the system inform? In what context is it deployed?
+
+
+Primary task: Is to generate a country-level composite One Health risk score (0–100) to inform, but not determine the prioritization of grant applications from countries seeking support for integrated human-animal-environment health (oneHealth) programs.
+
+Intended users: Program officers at the international funding agency who review grant applications during the annual funding cycle. The program officers considers the system's domain breakdown of each application while final funding decision is made by a review committee that considers the model output, the written application and geopolitical factors. These users are domain experts in global health and are not necessarily machine learning specialists.
+
+Decision context: The risk score and domain breakdown are presented alongside each country's written application narrative. A review committee makes final funding decisions by weighing the model output, the application narrative, and geopolitical considerations. The system distributes approximately $120 million across 40–60 countries per cycle.
+
+Intended role: Decision-support tool ("human-in-the-loop"), not an autonomous allocator. The model is designed to surface relative risk levels and highlight which One Health domains drive that risk for a given country, enabling program officers to prioritize review attention and compare applications on a standardized quantitative axis.
+
+---
+
+## 3. Out-of-Scope Uses
+
+> What should this system NOT be used for? What populations, settings, or
+> decisions are outside its design? What misuses are foreseeable?
+
+[Your response]
+
+---
+
+## 4. Training Data
+
+> What data was used to build or train this model? How was it collected? What
+> populations, geographies, languages, and time periods does it cover? What
+> is missing?
+
+[Your response]
+
+---
+
+## 5. Evaluation Data & Metrics
+
+> How was performance measured? What metrics were used — accuracy, sensitivity,
+> specificity, F1, AUC, RMSE? On what test set? Is it independent from the
+> training data?
+
+[Your response]
+
+---
+
+## 6. Quantitative Analysis
+
+> Performance broken down by relevant subgroups — age, sex, race/ethnicity,
+> geography, income, language. Does the model perform differently across
+> these groups? Where are the gaps?
+
+[Your response]
+
+---
+
+## 7. Ethical Considerations
+
+> Bias risks, informed consent, privacy, potential harms, equity implications.
+> Does this system reproduce or amplify existing disparities? Who bears the
+> consequences when it fails?
+
+[Your response]
+
+---
+
+## 8. Limitations & Caveats
+
+> Known failure modes, edge cases, what the model does not capture. Conditions
+> where it performs poorly. Assumptions baked into the design that may not
+> hold in all deployment contexts.
+
+[Your response]
+
+---
+
+## 9. Human Oversight
+
+> Who reviews outputs before action is taken? Human in the loop, on the loop,
+> or out of the loop? What is the escalation path when the model is wrong?
+> Can it act autonomously — and should it?
+
+[Your response]
+
+---
+
+## 10. Temporal Validity
+
+> When does this model need retraining or re-evaluation? What triggers a
+> review — new data, policy change, population shift, outbreak? How does
+> performance degrade over time?
+
+[Your response]
