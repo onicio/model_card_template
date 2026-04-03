@@ -1,0 +1,162 @@
+# Model Card — [NutriGuide]
+
+**Scenario:** [This is a Healthy Eating AI Recommendation System for Low-Income Families]
+**Authors:** [Grace]
+**Date:** [April 2, 2026.]
+
+---
+
+## 1. Model Details
+
+> What model or API is being used? Who built it? What version? What type of
+> model — classification, prediction, generation, optimization? When was it
+> developed?
+
+[The NutriGuide system is an AI recommendation system combining collaborative filtering and constraint-based optimization to generate personalized weekly meal plans and shopping lists. It is trained on nutritional databases, grocery pricing data, and dietary guidelines.
+
+The system also incorporates a natural language processing (NLP) component to support basic user queries.
+
+It was developed by a university research team in partnership with a nonprofit organization focused on food security, and funded through a USDA grant. A specific model version is not provided, which shows that this is an early-stage or pilot deployment system.]
+
+---
+
+## 2. Intended Use
+
+> What is the primary task? Who are the intended users? What decisions does
+> the system inform? In what context is it deployed?
+
+[This system is meant to be a healthy food recommendation system, specifically meant to help low income families in underserved urban neighborhoods in order to enable them make healthy food choices. The primary users of the tool are parents, caregivers in household earning below 200% of the federal poverty level. 
+The system informs decisions related to: Weekly meal planning, Grocery purchasing within budget constraints, Healthier food substitutions. It is deployed as a mobile application and kiosk-based system in community health centers and WIC offices.]
+
+---
+
+## 3. Out-of-Scope Uses
+
+> What should this system NOT be used for? What populations, settings, or
+> decisions are outside its design? What misuses are foreseeable?
+
+[It would be inappropriate for anyone to try to use this tool, which is a healthy food recommendation system to manage any chronic conditions that they may be battling with; like heart diseases or type 2 diabetes. That would mean that the tool is being used in the wrong context for the wrong purpose. Also, currently, the tool does not fully handle cultural food preferences so expecting the tool to provide tailor-made recommendations based on one's cultural preferences would be out of the tool's scope.]
+
+---
+
+## 4. Training Data
+
+> What data was used to build or train this model? How was it collected? What
+> populations, geographies, languages, and time periods does it cover? What
+> is missing?
+
+[The system draws on the USDA Food Central Database for nutritional information, Local grocery store pricing APIs where available, Food bank inventory (which is updaated weekly), user interaction data which is collected through the app. The training data for the collaborative filtering model comes from a prior 18-month pilot in Philadelphia that involved approximately 2400 households.]
+
+---
+
+## 5. Evaluation Data & Metrics
+
+> How was performance measured? What metrics were used — accuracy, sensitivity,
+> specificity, F1, AUC, RMSE? On what test set? Is it independent from the
+> training data?
+
+[No formal evaluation framework is described in the system documentation. Current feedback mechanisms rely on user ratings and substitution behavior, which are insufficient for rigorous validation.
+
+Recommended evaluation metrics include:
+Recommendation accuracy (precision/recall)
+User adherence rate (did users follow meal plans?)
+Nutritional adequacy scores
+Cost-efficiency metrics (nutrition per dollar)
+User satisfaction scores (beyond simple ratings)
+
+Also, an independent test dataset separate from training data should be used to evaluate this performance.]
+
+---
+
+## 6. Quantitative Analysis
+
+> Performance broken down by relevant subgroups — age, sex, race/ethnicity,
+> geography, income, language. Does the model perform differently across
+> these groups? Where are the gaps?
+
+[No subgroup-based performance analysis is reported. A proper evaluation should assess performance across:
+Income levels within target group
+Household size
+Geographic location (e.g., Tucson vs Detroit vs Camden)
+Language (English vs Spanish users)
+Access to food sources (food deserts vs better-served areas)
+
+Most importantly, potential disparities may arise if: Pricing data is more accurate in some cities than others, cultural food gaps reduce usability for certain populations, language differences affect interaction quality]
+---
+
+## 7. Ethical Considerations
+
+> Bias risks, informed consent, privacy, potential harms, equity implications.
+> Does this system reproduce or amplify existing disparities? Who bears the
+> consequences when it fails?
+
+[In terms of bias and equity, limited cultural awareness may lead to systematic exclusion of certain ethnic dietary practices. For privacy and data usage, User data (household size, food habits, budget) is sensitive and must be:
+
+Collected with informed consent
+Stored securely
+Not shared without transparency
+
+Potential Harms
+Inaccurate recommendations could:
+Lead to nutritional deficiencies
+Suggest impractical foods (unavailable or culturally inappropriate)
+Over-reliance on the system may reduce individual autonomy or critical decision-making
+
+Responsibility
+Failures disproportionately impact already vulnerable populations (low-income families)
+Developers and deploying institutions bear responsibility for:
+Monitoring harm
+Updating the system
+Providing fallback support
+]
+
+---
+
+## 8. Limitations & Caveats
+
+> Known failure modes, edge cases, what the model does not capture. Conditions
+> where it performs poorly. Assumptions baked into the design that may not
+> hold in all deployment contexts.
+
+[One major limitation of the tool is that it lacks cultural context or consideration. If the tool recommends a meal that they cannot really relate to, that recommendation will become useless to the users. Also, it currently does not account for other food allergies but just 6. That can be a problem if some individuals have other allergies aside the 6 that the tool covers.]
+Limited handling of cultural food preferences
+Only accounts for six major allergens, missing others
+Assumes consistent access to certain food sources (which may not exist)
+Dependent on data quality (pricing, inventory, user input)
+May not adapt well to rapid price fluctuations or supply shortages
+Designed primarily for urban settings, limiting generalizability
+---
+
+## 9. Human Oversight
+
+> Who reviews outputs before action is taken? Human in the loop, on the loop,
+> or out of the loop? What is the escalation path when the model is wrong?
+> Can it act autonomously — and should it?
+
+[Another limitation of this tool is that it lacks human oversight. There is no dietitian or nutritionist that serves as the human in the loop to ensure that the meals or foods recommended are safe for these families. This tool should not be aloud to work autonomously, there has to be a form oversight.]
+Currently, there is no explicit human-in-the-loop system for validating recommendations.
+
+Recommended approach:
+
+Incorporate dietitians or nutritionists as reviewers (human-in-the-loop)
+Community health workers could act as on-the-loop supervisors during WIC visits
+Provide an escalation pathway for:
+Allergy concerns
+Medical dietary needs
+Incorrect recommendations
+
+The system should not operate fully autonomously, especially given its impact on health.
+---
+
+## 10. Temporal Validity
+
+> When does this model need retraining or re-evaluation? What triggers a
+> review — new data, policy change, population shift, outbreak? How does
+> performance degrade over time?
+
+[The model’s performance is likely to degrade over time due to changes in:
+
+Food prices (inflation, supply chain disruptions)
+Food availability (seasonal or regional variation)
+Dietary guidelines updates (e.g., USDA recommendations)
+User behavior and preferences over time]
