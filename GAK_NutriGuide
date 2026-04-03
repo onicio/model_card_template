@@ -35,7 +35,9 @@ The system informs decisions related to: Weekly meal planning, Grocery purchasin
 > What should this system NOT be used for? What populations, settings, or
 > decisions are outside its design? What misuses are foreseeable?
 
-[It would be inappropriate for anyone to try to use this tool, which is a healthy food recommendation system to manage any chronic conditions that they may be battling with; like heart diseases or type 2 diabetes. That would mean that the tool is being used in the wrong context for the wrong purpose. Also, currently, the tool does not fully handle cultural food preferences so expecting the tool to provide tailor-made recommendations based on one's cultural preferences would be out of the tool's scope.]
+[It would be inappropriate for anyone to use this tool, which is a healthy food recommendation system to manage any chronic conditions that they may be battling with; like heart diseases or type 2 diabetes.
+That would mean that the tool is being used in the wrong context for the wrong purpose.
+Also, currently, the tool does not fully handle cultural food preferences so expecting the tool to provide tailor-made recommendations based on one's cultural preferences would be out of the tool's scope.]
 
 ---
 
@@ -45,7 +47,8 @@ The system informs decisions related to: Weekly meal planning, Grocery purchasin
 > populations, geographies, languages, and time periods does it cover? What
 > is missing?
 
-[The system draws on the USDA Food Central Database for nutritional information, Local grocery store pricing APIs where available, Food bank inventory (which is updaated weekly), user interaction data which is collected through the app. The training data for the collaborative filtering model comes from a prior 18-month pilot in Philadelphia that involved approximately 2400 households.]
+[The system draws on the USDA Food Central Database for nutritional information, Local grocery store pricing APIs where available, Food bank inventory (which is updaated weekly), user interaction data which is collected through the app.
+The training data for the collaborative filtering model comes from a prior 18-month pilot in Philadelphia that involved approximately 2400 households.]
 
 ---
 
@@ -55,16 +58,16 @@ The system informs decisions related to: Weekly meal planning, Grocery purchasin
 > specificity, F1, AUC, RMSE? On what test set? Is it independent from the
 > training data?
 
-[No formal evaluation framework is described in the system documentation. Current feedback mechanisms rely on user ratings and substitution behavior, which are insufficient for rigorous validation.
+[No formal evaluation framework is described in the system documentation. Current feedback mechanisms rely on user ratings and substitution behavior, which are insufficient for thorough  validation.
 
 Recommended evaluation metrics include:
 Recommendation accuracy (precision/recall)
-User adherence rate (did users follow meal plans?)
-Nutritional adequacy scores
-Cost-efficiency metrics (nutrition per dollar)
-User satisfaction scores (beyond simple ratings)
+User adherence rate (did users follow meal plans/ the foods that were recommended by the system?)
+Nutritional adequacy scores (was healthy eating really achieved by the users of this tool?)
+Cost-efficiency metrics (nutrition per dollar - how much were they really able to save, compared to where they would have defaulted to go shopping.)
+User satisfaction scores (beyond simple ratings. Aside just the rating, what was used to measure the satisfaction of a user)
 
-Also, an independent test dataset separate from training data should be used to evaluate this performance.]
+Also, an independent test dataset separate from training data should be used to evaluate the performance of this tool.]
 
 ---
 
@@ -78,7 +81,7 @@ Also, an independent test dataset separate from training data should be used to 
 Income levels within target group
 Household size
 Geographic location (e.g., Tucson vs Detroit vs Camden)
-Language (English vs Spanish users)
+Language (the English vs Spanish users)
 Access to food sources (food deserts vs better-served areas)
 
 Most importantly, potential disparities may arise if: Pricing data is more accurate in some cities than others, cultural food gaps reduce usability for certain populations, language differences affect interaction quality]
@@ -90,25 +93,14 @@ Most importantly, potential disparities may arise if: Pricing data is more accur
 > Does this system reproduce or amplify existing disparities? Who bears the
 > consequences when it fails?
 
-[In terms of bias and equity, limited cultural awareness may lead to systematic exclusion of certain ethnic dietary practices. For privacy and data usage, User data (household size, food habits, budget) is sensitive and must be:
+[In terms of bias and equity, limited cultural awareness may lead to systematic exclusion of certain ethnic dietary practices. For privacy and data usage, User data (household size, food habits, budget) is sensitive and must be collected with informed consent, stored securely
+ maybe in a HIPAA compliant database and not shared with anyone.
 
-Collected with informed consent
-Stored securely
-Not shared without transparency
+For likely potential harms, inaccurate recommendations could lead to nutritional deficiencies, suggest impractical foods (unavailable or culturally inappropriate- foods that the people cannot relate to) and over-reliance on the system may reduce individual autonomy
+or critical decision-making
 
-Potential Harms
-Inaccurate recommendations could:
-Lead to nutritional deficiencies
-Suggest impractical foods (unavailable or culturally inappropriate)
-Over-reliance on the system may reduce individual autonomy or critical decision-making
-
-Responsibility
-Failures disproportionately impact already vulnerable populations (low-income families)
-Developers and deploying institutions bear responsibility for:
-Monitoring harm
-Updating the system
-Providing fallback support
-]
+For who is responsible for the tool, 
+Failures impact already vulnerable populations (low-income families) so developers and deploying institutions would bear responsibility for monitoring harm, updating the system often and providing support when needed.]
 
 ---
 
@@ -118,13 +110,10 @@ Providing fallback support
 > where it performs poorly. Assumptions baked into the design that may not
 > hold in all deployment contexts.
 
-[One major limitation of the tool is that it lacks cultural context or consideration. If the tool recommends a meal that they cannot really relate to, that recommendation will become useless to the users. Also, it currently does not account for other food allergies but just 6. That can be a problem if some individuals have other allergies aside the 6 that the tool covers.]
-Limited handling of cultural food preferences
-Only accounts for six major allergens, missing others
-Assumes consistent access to certain food sources (which may not exist)
-Dependent on data quality (pricing, inventory, user input)
-May not adapt well to rapid price fluctuations or supply shortages
-Designed primarily for urban settings, limiting generalizability
+[One major limitation of the tool is that it lacks cultural context or consideration. If the tool recommends a meal that they cannot really relate to, that recommendation will become useless to the users.
+Also, it currently does not account for other food allergies but just 6. That can be a problem if some individuals have other allergies aside the 6 that the tool covers. Another thing worth mentioning is that the tool
+assumes that the target population has constant access to the food stores/sources even though this may not really be the case for some households.]
+
 ---
 
 ## 9. Human Oversight
@@ -133,19 +122,18 @@ Designed primarily for urban settings, limiting generalizability
 > or out of the loop? What is the escalation path when the model is wrong?
 > Can it act autonomously — and should it?
 
-[Another limitation of this tool is that it lacks human oversight. There is no dietitian or nutritionist that serves as the human in the loop to ensure that the meals or foods recommended are safe for these families. This tool should not be aloud to work autonomously, there has to be a form oversight.]
-Currently, there is no explicit human-in-the-loop system for validating recommendations.
+[Another limitation of this tool is that it lacks human oversight. There is no dietitian or nutritionist that serves as the human in the loop to ensure that the meals or foods recommended are safe for these families.
+This tool should not be aloud to work autonomously, there has to be a form oversight.
 
-Recommended approach:
+Recommendation :
 
 Incorporate dietitians or nutritionists as reviewers (human-in-the-loop)
 Community health workers could act as on-the-loop supervisors during WIC visits
 Provide an escalation pathway for:
 Allergy concerns
 Medical dietary needs
-Incorrect recommendations
+Incorrect recommendations]
 
-The system should not operate fully autonomously, especially given its impact on health.
 ---
 
 ## 10. Temporal Validity
@@ -158,5 +146,5 @@ The system should not operate fully autonomously, especially given its impact on
 
 Food prices (inflation, supply chain disruptions)
 Food availability (seasonal or regional variation)
-Dietary guidelines updates (e.g., USDA recommendations)
-User behavior and preferences over time]
+Dietary guidelines updates (e.g., USDA nutrient database)
+User behavior and preferences with time]
