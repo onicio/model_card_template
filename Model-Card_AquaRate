@@ -1,0 +1,108 @@
+# Model Card — AquaRate
+
+**Scenario:** AquaRate: Consumer Water Quality Rating System
+**Authors:** Thania Brinks
+**Date:** 4/1/2026
+
+---
+
+## 1. Model Details
+
+> What model or API is being used? Who built it? What version? What type of
+> model — classification, prediction, generation, optimization? When was it
+> developed?
+
+The AquaRate mobile app is a predictive model that provides consumers of bottled and packaged water an A-F rating, where A is the best rating and F is the worst, based on water quality factors. The model uses gradient-boosted ensemble, which works by creating many smaller models and combines them to make accurate predictions. This model takes inputs from a particular brand (Total coliform/ E.coli levels, chemical contaminant levels, mineral content, pH, turbidity, microplastic presence, historical compliance, and water source) and assigns the brand a score from 0-100 which is then converted to a letter grade. Letter grades are assigned as follows: 0-16=F, 17-33=E, 34-50=D, 51-67=C, 68-83=D, 84-100=F. This model was developed in 2025 by a group of water quality researchers at the University of Arizona and is on version 3.0.
+
+---
+
+## 2. Intended Use
+
+> What is the primary task? Who are the intended users? What decisions does
+> the system inform? In what context is it deployed?
+
+The main task is to support consumer bottled and packaged water purchase decision by providing an A-F rating based on water quality metrics. The intended users are health-conscious consumers, especially parents of young children and immuno-compromised individuals, in the USA. The intended use case is for consumers to be able to scan the products bar code using the mobile app to see the generated rating so they may decide what brand of water to purchase, likely while in the store. 
+
+---
+
+## 3. Out-of-Scope Uses
+
+> What should this system NOT be used for? What populations, settings, or
+> decisions are outside its design? What misuses are foreseeable?
+
+AquaRate, while it uses real world water quality data to make predictions, it is not backed by any government agency, and has no regulatory authority. The score provided should not be used as a definitive measure of water quality, only an estimate, nor should the rating be treated as a water quality regulation. Purchase decisions made using the rating should not be considered medical advice or a substitute for recommendations provided by a licensed healthcare provider. Also the model should not be used to attempt to assess any other beverages.  
+
+---
+
+## 4. Training Data
+
+> What data was used to build or train this model? How was it collected? What
+> populations, geographies, languages, and time periods does it cover? What
+> is missing?
+
+The data used to train the model comes from multiple sources 1) Water quality testing reports provided by bottled water brands to the FDA and available freely on the FDA website, 2) EPA water quality reports by municipality, publicly available from the EPA website, 3) Lab testing data purchased from Certified laboratories, a third-party food and beverage testing laboratory, as well as 4) climate data available from the National Weather Service website and geospatial data availible from USGS website. All data is only for bottled and packaged water sold in the United States for consumers in the United States, and provided only in English. Data is generally not current, FDA data is 12-18 months behind and EPA data is only reported once a year. 
+Due to variation in testing requierments the quality and accuracy of testing methodology may not be equivalent. Although every effort is made to ensure the quality of the training data, self-reported data from brands may be misleading or datasets available may have missing values. Also each brand is not typically represented equally in the data. Combined the data covers only 60% of available brands found in supermarket chains. Most of the missing datais from store-brand or regional brands. The most current version of the data was used for training, reports published in Spring 2025.    
+
+---
+
+## 5. Evaluation Data & Metrics
+
+> How was performance measured? What metrics were used — accuracy, sensitivity,
+> specificity, F1, AUC, RMSE? On what test set? Is it independent from the
+> training data?
+
+Performance was primarily measured using the F1 score which will treat each level (letter grade) equally, ensure classification accuracy, to ensure precision and recall. Cohen's Kappa was also used to measure how the model performs over random guessing. Since the model is intended to provide health safety information, sensitivity and specificity tests were conducted to ensure unsafe water is accurately predicted and unsafe waster is not labeled as safe. The data set used for this purpose was older versions of the FDA water quality result, EPA municipal water quality reports, and older water testing reports from independent labs. This wat the same sources of data are used, but the data used is different than the training data.   
+
+---
+
+## 6. Quantitative Analysis
+
+> Performance broken down by relevant subgroups — age, sex, race/ethnicity,
+> geography, income, language. Does the model perform differently across
+> these groups? Where are the gaps?
+
+Performance was assessed qualitatively for geospatial area broken down by urban and rural communities and socioeconomic factors. Additionally age, race, and income to ensure there is no bias based on demographic factors. The analysis also included chronic illness to ensure the model is not responding to existing health status of the user. The analysis shows that the model performs similarly across all segments, however, providing personal data was an optional step and 30% of the users examined were missing some or all of these responses.  
+
+---
+
+## 7. Ethical Considerations
+
+> Bias risks, informed consent, privacy, potential harms, equity implications.
+> Does this system reproduce or amplify existing disparities? Who bears the
+> consequences when it fails?
+
+The mobile app is funded by partnerships with high scoring water brands. This ensures accessibility, the app is offered for free, however, this partnership may introduce bias as high scoring brands may be scanned more often compared to those that are lower scoring. There is also the risk that the model may learn to bias based on water source (spring, purified municipal and artesian) if it develops the perception that one source tends to be better than others. The concern is that the model will favor one source or another and give it better scores. 
+Access may be disproportional among communities with poor internet and electricity access, or those without smartphones that can connect to a 5G network. Access is also limited in non-English speaking communities. These communities tend to suffer from historical structural inequities and safe water access. For example, it is cultural practice in Mexican communities to drink only bottles water due to a poor perception of water safety. This type of tool would help these communities make better health safety decisions. Future developments of the app will need to include other languages starting with Spanish, Mandarin/Cantonese, Tagalog, Vietnamese, and Arabic, the top most spoken languages after English.
+There is potential for harm if users make decisions based on scores that may be over a year old. More current issues may not be captured in the prediction, leaving people to make less well-informed health safety decisions. This is more impactful in vulnerable individuals, young children and immuno-compromised people. Ultimately, the responsible parties for ethical failures in the app are the water quality researchers at the University of Arizona. 
+
+---
+
+## 8. Limitations & Caveats
+
+> Known failure modes, edge cases, what the model does not capture. Conditions
+> where it performs poorly. Assumptions baked into the design that may not
+> hold in all deployment contexts.
+
+While the model performs well under typical conditions, failures have been identified when there are conflicts in reported data, example the FDA data shows a brand is safe but independent labs find it to be unsafe. Failure also occurs when unusual inputs are reported for a brand or the combination of inputs is one the model has never seen (i.e. high arsenic + low turbidity+ E. coli present + no coliform detected). 
+Assumption made by the model include 1)contaminants are tested consistently, 2)units and methods are standardized, and 3) data is accurate. These assumptions can create inaccuracy, especially if there are any rapid changes to any of those elements. 
+
+
+---
+
+## 9. Human Oversight
+
+> Who reviews outputs before action is taken? Human in the loop, on the loop,
+> or out of the loop? What is the escalation path when the model is wrong?
+> Can it act autonomously — and should it?
+
+This model maintains a human in the loop framework where the research group maintains general oversight and occasional field testing. The research group partners with a development team that surveys for bugs, corrupted code or dataset quality issues. The model can report to the developer when there is any critical failure like dataset availability or errors in score calculation, but ultimately is up to developers and researchers to maintain regular assessment to identify problems. The research team makes the final decision on how to handle any failures identified.
+
+---
+
+## 10. Temporal Validity
+
+> When does this model need retraining or re-evaluation? What triggers a
+> review — new data, policy change, population shift, outbreak? How does
+> performance degrade over time?
+
+Any changes in metrics tested, availability of the datasets, changes in frequency of reporting will trigger a review to ensure the model is able to make use of the best and most current data available. Changes to the maximum contaminant level regulations or water quality regulations will automatically trigger retaining to ensure the model has current data for comparison. Outdated data or comparison matrices will reduce the accuracy of the assessment and may result in significantly better or lower scores that do not represent reality.  
