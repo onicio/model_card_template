@@ -1,0 +1,128 @@
+# Model Card — OneHealth FundScore
+
+**Scenario:** OneHealth FundScore: Grant Allocation Risk Predictor
+**Authors:** Timothy Ojodare
+**Date:** April 1, 2026
+
+---
+
+## 1. Model Details
+
+> What model or API is being used? Who built it? What version? What type of
+> model — classification, prediction, generation, optimization? When was it
+> developed?
+
+OneHealth FundScore is a multi-layer neural network designed for risk prediction and scoring (any possible output value between 0–100 scale), does not make funding decision by classifying what to, and what not to fund. It functions as a composite risk index generator that produces a country-level One Health risk score by integrating epidemiological, veterinary, environmental, and institutional data streams of applicants. The model was developed by OneHealth Fundscore for use by an international funding agency in its annual $120 million grant allocation cycle.
+
+The system is designed to ingest structured country application data that include epidemiological data (disease burden, outbreak history, surveillance capacity), veterinary and livestock data (zoonotic disease prevalence, antimicrobial resistance patterns), environmental indicators (deforestation rates, biodiversity loss indices, water and sanitation coverage), and institutional capacity metrics (health workforce density, laboratory capacity, IHR core capacity scores), and the system processes these input data alongside external datasets from the WHO Global Health Observatory, OIE/WOAH disease notification systems, World Bank development indicators, and the INFORM Risk Index. Outputs include the cummulative risk score and a domain-level breakdown (highlighting the one that contributes the most to the cummulative score) across four risk pillars: zoonotic spillover risk, antimicrobial resistance (AMR) burden, environmental degradation, and institutional fragility.
+
+The model version, training framework (which includes the data and how it was collected, and at what time period), and architecture depth (number of layers, review triggers and retraining details) are not disclosed. This is a transparency gap that itself warrants documentation, for a system influencing $120 million in annual funding, the opacity of these information is a significant as it directly weighs heavily on the quality of funding decisons.
+
+---
+
+## 2. Intended Use
+
+> What is the primary task? Who are the intended users? What decisions does
+> the system inform? In what context is it deployed?
+
+
+Primary task: Is to generate a country-level composite One Health risk score (0–100) to inform, but not determine the prioritization of grant applications from countries seeking support for integrated human-animal-environment health (oneHealth) programs.
+
+Intended users: Are the program officers at the international funding agency who review grant applications during the annual funding cycle. The program officers considers the system's domain breakdown of each application while final funding decision is made by a review committee that considers the model output, the written application and geopolitical factors. These users are domain experts in global health and are not necessarily machine learning specialists.
+
+Decision context: The system informs the decision of the review committee that ultimately makes final funding decisions by weighing the model output score, the application narrative, and geopolitical considerations. The ultimate decison leads to the distribution of approximately $120 million across 40–60 countries per cycle.
+
+Intended role: The system is deployed as a decision-support tool ("human-in-the-loop"), not an autonomous allocator. The model is designed to surface relative risk levels and highlight which One Health domains drive that risk for a given country, enabling program officers to prioritize review attention and compare applications on a standardized quantitative axis.
+
+---
+
+## 3. Out-of-Scope Uses
+
+> What should this system NOT be used for? What populations, settings, or
+> decisions are outside its design? What misuses are foreseeable?
+
+Sole determinant of funding: The model must not be used as an automated ranking algorithm that directly dictates allocation without human deliberations and final decision. If review committees treat the score as a pass/fail cutoff (e.g., "fund all countries above 65, reject all below"), the system is being misused.
+Subnational resource allocation: The model scores countries, not provinces, districts, or communities. Using it to evaluate applications from NGOs, regional bodies, or subnational governments operating independently would misapply a national-level instrument to contexts where its input data have no resolution. This may require different input structures and validation.
+Evaluating program effectiveness: FundScore measures baseline risk at the time of application. Using scores from different funding cycles to claim a country's One Health risk has "improved" or "worsened" will constitute a misuse. It was not designed to evaluate whether previously funded programs achieved their objectives.
+
+---
+
+## 4. Training Data
+
+> What data was used to build or train this model? How was it collected? What
+> populations, geographies, languages, and time periods does it cover? What
+> is missing?
+
+Structured grant applications: The model was trained on epidemiological data (disease burden, outbreak history, surveillance capacity), veterinary/livestock data (zoonotic disease prevalence, AMR patterns), environmental indicators (deforestation rates, biodiversity loss indices, water/sanitation coverage), and institutional capacity metrics (health workforce density, lab capacity, IHR core capacity scores).
+External datasets: WHO Global Health Observatory, OIE/WOAH disease notification data, World Bank development indicators, and the INFORM Risk Index.
+The data wsas collected through country-reported data from 40-60 applications requesting global health funding to international organizations, voluntary reporting of outbreaks, and remote sensing for environmental data.
+Unfortunately, accurate data for countries most in need, may often have the weakest data infrastructure and report and therefore scored low. In many LMICs, the majority of human and veterinary health encounters occur in the private sector and are not captured by public reporting systems. Also, Countries that have never applied to this funding mechanism are absent from the training set entirely, further reinforcing the survivorship bias i.e  only countries with sufficient institutional capacity to prepare a structured application are represented.
+Training data spans prior funding cycles, but the number of cycles, date range, and whether the model was trained on a single cohort or multiple cohorts is not specified.
+
+---
+
+## 5. Evaluation Data & Metrics
+
+> How was performance measured? What metrics were used — accuracy, sensitivity,
+> specificity, F1, AUC, RMSE? On what test set? Is it independent from the
+> training data?
+
+The primary metrics may include Root Mean Squared Error (RMSE) and Mean Absolute Error (MAE) that compares predicted risk scores against a ground truth which, in this context, would need to be defined carefully. 
+If the evaluation set is drawn from the same pool of past applicant countries used in training, the model may perform well on countries it has "seen" while failing on novel applicants. A rigorous evaluation would hold out entire countries (not just data points) as a test set, and specifically test on countries with weak data infrastructure to assess performance under data-poor conditions.
+The OneHealth Fundscore does not describe any formal evaluation protocol, test set, or even benchmarks, and these are significant gap for a system governing $120 million in annual disbursements.
+---
+
+## 6. Quantitative Analysis
+
+> Performance broken down by relevant subgroups — age, sex, race/ethnicity,
+> geography, income, language. Does the model perform differently across
+> these groups? Where are the gaps?
+The model performs differently based on a country's economic and data infrastructure capacity. High-income countries with sophisticated data systems may receive higher risk scores simply because they can sufficiently document their problems. Conversely, countries with the greatest need are often systematically underscored because they have weak data infrastructure.
+The most concerning anticipated finding is a U-shaped relationship between data quality and score accuracy i.e high accuracy for data-rich countries (good inputs, good predictions) and potentially high scores for data-rich countries with well-documented problems, but systematically depressed scores and poor accuracy for data-poor countries where risk may be equal or greater.
+
+---
+
+## 7. Ethical Considerations
+
+> Bias risks, informed consent, privacy, potential harms, equity implications.
+> Does this system reproduce or amplify existing disparities? Who bears the
+> consequences when it fails?
+
+The system reproduces and amplifies existing global disparities by creating a perverse feedback loop. Weak data infrastructure leads to lower model scores, lower scores lead to less funding, and less funding ensures the data infrastructure remains weak.
+The ethical concerns include the fact that the system reproduces and amplifies existing global disparities by creating a perverse feedback loop. Weak data infrastructure leads to lower model scores, lower scores lead to less funding, and less funding ensures the data infrastructure remains weak. And When the model fails this way, the consequence is not a misclassified data point but the misdirection of millions of dollars in health funding away from populations facing the highest One Health risks. The communities who bear this cost have no seat at the table where funding decisions are made and no mechanism to appeal an algorithmic assessment they cannot see.
+
+---
+
+## 8. Limitations & Caveats
+
+> Known failure modes, edge cases, what the model does not capture. Conditions
+> where it performs poorly. Assumptions baked into the design that may not
+> hold in all deployment contexts.
+
+Despite the domain breakdown output, the model's internal weighting of inputs remains opaque. Program officers cannot determine why two countries with similar input profiles receive different scores, nor can they identify which specific input features most influenced a given score. The domain breakdown provides category-level attribution but not feature-level explainability.
+The other know failure is the fact that the model systematically underscores countries with poor data infrastructure. It conflates a lack of data with a lack of risk. It also relies on potential stale data (e.g., IHR assessments over three years old) and voluntary reporting systems that inherently underreport outbreaks in under-resourced regions. Countries have strategic incentives to either overreport (to justify funding need) or underreport (to maintain international reputation) their One Health challenges. The model has no mechanism to detect or adjust for strategic reporting behavior.
+
+
+---
+
+## 9. Human Oversight
+
+> Who reviews outputs before action is taken? Human in the loop, on the loop,
+> or out of the loop? What is the escalation path when the model is wrong?
+> Can it act autonomously — and should it?
+
+The program officers at the international funding agency review the risk score and domain breakdown alongside the country's written application. Final funding decisions are made by a review committee that considers the model output, the application, and geopolitical factors. Thus, the system does not act autonomously; it serves only as a decision-support tool. It informs, but does not solely determine, funding allocation decisions.
+The model should not act autonomously for any reason, and the current human-in-the-loop design seems appropriate. However, the quality of the human oversight depends on interface design, officer training, and institutional willingness to override the model, all of which require active governance, and not a passive structure.
+
+---
+
+## 10. Temporal Validity
+
+> When does this model need retraining or re-evaluation? What triggers a
+> review — new data, policy change, population shift, outbreak? How does
+> performance degrade over time?
+
+While the report notes the system is used for an annual funding cycle, details regarding when the model needs retraining or re-evaluation, what triggers a review, and how its performance degrades over time were not mentioned. However, The model should be retrained or recalibrated at least once per funding cycle, incorporating updated external datasets (WHO GHO, OIE/WOAH notifications, World Bank indicators, INFORM Risk Index), novel zoonotic diseases, policy or reporting changes and any new applicant country data.
+The performance of this model can degrade over time because Country-reported data ages at different rates. IHR self-assessments not updated in 3+ years become progressively less informative. The model should weight data recency or flag scores derived substantially from stale inputs.
+Also, the relationship between input indicators and actual One Health risk is not stationary and this will significantly influence the model degradation with time. For example, climate change alters vector ecology, antimicrobial resistance evolves under selection pressure, and urbanization reshapes human-animal-environment interfaces. A model trained on 2020 risk relationships may mischaracterize 2026 risk dynamics.
+
